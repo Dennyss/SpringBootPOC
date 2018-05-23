@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <Properties>
+        <Property name="LOGGER_HOME">/logs/</Property>
+    </Properties>
+
+    <Appenders>
+        <RollingFile name="application" fileName="${LOGGER_HOME}/poc.log"
+                     filePattern="${LOGGER_HOME}/poc.%d{yyyy-MM-dd}_%i.log.gz">
+
+            <PatternLayout pattern="%d{ISO8601}{GMT} %-5p[%c{1}] - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="1 GB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <AsyncLogger name="com" level="debug" additivity="false">
+            <AppenderRef ref="console"/>
+        </AsyncLogger>
+        <Root level="info" includeLocation="false">
+            <AppenderRef ref="console"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
