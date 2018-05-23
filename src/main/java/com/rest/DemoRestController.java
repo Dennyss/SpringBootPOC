@@ -1,5 +1,6 @@
 package com.rest;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,8 @@ public class DemoRestController {
 
     @PostMapping("/postDemo")
     public ResponseEntity<String> postDemoEndpoint(@RequestBody String body, @RequestHeader(value = "Content-Type") String contentType){
-        return new ResponseEntity<String>("{Simple demo reply body}", HttpStatus.OK);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Content-Type", "application/json");
+        return new ResponseEntity<String>("{Simple demo reply body}", responseHeaders, HttpStatus.OK);
     }
 }

@@ -19,6 +19,16 @@
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
+        <RollingFile name="httpReq" fileName="${LOGGER_HOME}/httpReq.log"
+                     filePattern="${LOGGER_HOME}/httpReq.%d{yyyy-MM-dd}_%i.log.gz">
+
+            <PatternLayout pattern="%d{ISO8601}{GMT} %-5p[%c{1}] - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="1 GB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
     </Appenders>
 
     <Loggers>
@@ -28,6 +38,9 @@
         <Root level="info" includeLocation="false">
             <AppenderRef ref="console"/>
         </Root>
+        <AsyncLogger name="httpReqLogger" level="info" additivity="false">
+            <AppenderRef ref="httpReq"/>
+        </AsyncLogger>
     </Loggers>
 
 </Configuration>
