@@ -2,6 +2,7 @@ package com.configuration;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.ThreadContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
@@ -12,12 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
+import java.util.Random;
 
 /**
  * Created by denys.kovalenko on 5/23/2018.
  */
 public class LoggableDispatcherServlet extends DispatcherServlet {
     private static final Logger LOGGER = LogManager.getLogger("httpReqLogger");
+    private Random jsessionID = new Random();
 
     @Override
     protected void doDispatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -30,6 +33,8 @@ public class LoggableDispatcherServlet extends DispatcherServlet {
         try {
             super.doDispatch(request, response);
         } finally {
+            String requestId = String.valueOf(Math.abs(jsessionID.nextLong()));
+            ThreadContext.put("requestId", requestId);
             log(request, response);
             updateResponse(response);
         }
