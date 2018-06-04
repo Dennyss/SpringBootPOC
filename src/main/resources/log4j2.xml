@@ -19,8 +19,8 @@
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-        <RollingFile name="httpReq" fileName="${LOGGER_HOME}/httpReq.log"
-                     filePattern="${LOGGER_HOME}/httpReq.%d{yyyy-MM-dd}_%i.log.gz">
+        <RollingFile name="httpReqRespAppender" fileName="${LOGGER_HOME}/request-response.log"
+                     filePattern="${LOGGER_HOME}/request-response.%d{yyyy-MM-dd}_%i.log.gz">
 
             <PatternLayout pattern="%d{ISO8601}{GMT} %-5p[%c{1}] - %m%n"/>
             <Policies>
@@ -39,7 +39,7 @@
             <AppenderRef ref="console"/>
         </Root>
         <AsyncLogger name="httpReqLogger" level="info" additivity="false">
-            <AppenderRef ref="httpReq"/>
+            <AppenderRef ref="httpReqRespAppender"/>
         </AsyncLogger>
     </Loggers>
 
